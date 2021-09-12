@@ -54,3 +54,29 @@ impl Stream for ListCrawler {
         }
     }
 }
+
+pub struct SelectorCrawler<F>
+where
+F: FnMut(Url) -> Pin<Box<dyn Future<Output = Html>>> {
+	client: Client,
+	f: F,
+	next_uri: Option<Url>
+}
+
+
+impl<F> Stream for SelectorCrawler<F>
+where
+F: FnMut(Url) -> Pin<Box<dyn Future<Output = Html>>>{
+    type Item = Url;
+
+    fn poll_next(
+        mut self: Pin<&mut Self>,
+        cx: &mut std::task::Context<'_>,
+    ) -> Poll<Option<Self::Item>> {
+		let st = self.as_mut();
+		match st.next_uri.take(){
+			Some(_) => todo!(),
+			None => todo!(),
+}
+    }
+}
